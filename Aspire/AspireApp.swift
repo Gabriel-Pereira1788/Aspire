@@ -11,7 +11,7 @@ import SwiftUI
 struct AspireApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RouterView(viewModel: RouterViewModel())
         }
     }
 }
