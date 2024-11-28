@@ -4,23 +4,45 @@ struct MeditationScreenView : View {
     @ObservedObject var viewModel: MeditationScreenViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(alignment:.center,spacing: 20) {
             
-            Circle().fill(.red).frame(width: 100).frame(height: 100).scaleEffect(viewModel.isBreathingIn ? 1.5 : 1.0)
-            Text("Deep Meditation to relax")
-                .font(.system(size:40,weight: .light,design: .none))
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.black)
+            Circle()
+                .fill(LinearGradient(
+                    colors: [
+                        Color.red.opacity(0.6),
+                        Color.purple.opacity(0.4),
+                        Color.blue.opacity(0.6)
+                    ]
+                    ,startPoint: .bottom,
+                    endPoint: .top))
+                .frame(width: 250)
+                .frame(height: 250)
+                .scaleEffect(viewModel.isBreathingIn ? 1.4 : 1.0)
+                .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
             
-            Text("Body Healing")
-                .font(.subheadline)
-                .foregroundColor(Color(UIColor.lightGray))
-            
-            Text(viewModel.formatTime())
-                .font(.system(size: 50, weight: .light, design: .rounded))
-                .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0))
+            VStack {
+                Text("Deep Meditation to relax")
+                    .font(.system(size:40,weight: .light,design: .none))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.black)
                 
-                .padding()
+                Text("Body Healing")
+                    .font(.subheadline)
+                    .foregroundColor(Color(UIColor.lightGray))
+                
+                Text(viewModel.formatTime())
+                    .font(.system(size: 50, weight: .light, design: .rounded))
+                    .foregroundStyle(LinearGradient(
+                        colors: [
+                            Color.purple.opacity(0.8),
+                            Color.blue.opacity(0.8)
+                        ]
+                        ,startPoint: .bottom,
+                        endPoint: .top))
+                    .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0))
+                
+                    .padding()
+            }.padding(.top,100)
             
         }.frame(maxWidth:.infinity,maxHeight: .infinity)
             .onAppear {
@@ -28,17 +50,7 @@ struct MeditationScreenView : View {
             }
             .padding()
             .background {
-                ZStack {
-                    
-                    LinearGradient(stops: [
-                        .init(color:.white,location: 0),
-                        .init(color: .white, location: 0.58),
-                        
-                            .init(color: Color(UIColor.systemGray), location: 0.99),
-                        
-                    ], startPoint: .bottomTrailing, endPoint: .topLeading)
-                    
-                }.ignoresSafeArea()
+                BackgroundView()
             }
     }
     

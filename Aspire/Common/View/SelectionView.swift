@@ -7,34 +7,7 @@
 
 import SwiftUI
 
-enum SelectionMode: Int, CaseIterable {
-    case easy
-    case medium
-    case hard
-    
-    
-    var imageName: String {
-        switch self {
-        case .easy:
-            return "leaf"
-        case .medium:
-            return "cloud"
-        case .hard:
-            return "sparkles"
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .easy:
-            return "Relax"
-        case .medium:
-            return "Focus"
-        case .hard:
-            return "Deep"
-        }
-    }
-}
+
 
 
 struct SelectionView: View {

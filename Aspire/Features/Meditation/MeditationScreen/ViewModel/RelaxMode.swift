@@ -9,13 +9,29 @@ import UIKit
 
 class RelaxMode: MeditationMode {
     var toggleState: () -> Void
+    
     private var isStopped = false
+    private var soundEffect = SoundEffectManager()
+    
     init(toggleState:@escaping () -> Void){
         self.toggleState = toggleState
     }
-
+    
     func execute() {
-        if isStopped {return}
+        soundEffect.play(resource: "relax_rain")
+        runBreathingAnimation()
+    }
+    
+    func stop() {
+        isStopped = true
+    }
+    
+    
+    func runBreathingAnimation() {
+        if isStopped {
+            soundEffect.stop()
+            return
+        }
         
         withAnimation(.easeInOut(duration:4)) {
             toggleState()
@@ -30,15 +46,13 @@ class RelaxMode: MeditationMode {
                 
             } completion: {
                 self.dispatchImpactFeedback(.soft)
-                self.execute()
+                self.runBreathingAnimation()
             }
         }
     }
-    
-    func stop() {
-        isStopped = true
-    }
 }
+
+
 
 extension RelaxMode {
     private func dispatchImpactFeedback(_ style:UIImpactFeedbackGenerator.FeedbackStyle) {

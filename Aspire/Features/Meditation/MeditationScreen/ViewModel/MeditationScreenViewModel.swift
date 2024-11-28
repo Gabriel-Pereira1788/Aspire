@@ -37,9 +37,12 @@ class MeditationScreenViewModel: ObservableObject {
         
         switch mode {
         case .easy:
+            remainingTime = SelectionMode.easy.getRemainingTime()
             meditationMode = RelaxMode(toggleState:{self.isBreathingIn.toggle()})
-        default:
-            break
+        case .medium:
+            remainingTime = SelectionMode.medium.getRemainingTime()
+        case .hard:
+            remainingTime = SelectionMode.hard.getRemainingTime()
         }
     }
     
