@@ -11,19 +11,30 @@ class SoundEffectManager {
     
     func play(resource soundResource:String) {
         
+        configureAudioSession()
         
-        guard let soundURL = Bundle.main.url(forResource:soundResource, withExtension: "mp3") else {
-            print("Resource not found.")
+        guard let soundURL = URL(string: soundResource) else {
+            print("Sound not found")
             return
         }
         let playerItem = AVPlayerItem(url: soundURL)
         
         player = AVPlayer(playerItem: playerItem)
+        player?.volume = 0.1
         player?.play()
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
         
+    }
+    
+    private func configureAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowBluetooth])
+            try audioSession.setActive(true)
+        } catch {
+            print("Erro ao configurar a sessão de áudio: \(error.localizedDescription)")
+        }
     }
     
     @objc private func playerItemDidReachEnd(notification: Notification) {

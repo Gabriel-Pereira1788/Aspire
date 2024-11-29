@@ -15,7 +15,8 @@ class MeditationScreenViewModel: ObservableObject {
     private var timerCancellable: AnyCancellable?
     private var shouldBeFinish = false
     
-    private var meditationMode: MeditationMode?
+    private var meditationController: MeditationController?
+    var title:String = ""
     
     @Published var  isBreathingIn = false
     @Published private var remainingTime: TimeInterval = 30
@@ -29,7 +30,7 @@ class MeditationScreenViewModel: ObservableObject {
     }
     
     deinit {
-        meditationMode?.stop()
+        meditationController?.stop()
         timerCancellable?.cancel()
     }
     
@@ -38,11 +39,14 @@ class MeditationScreenViewModel: ObservableObject {
         switch mode {
         case .easy:
             remainingTime = SelectionMode.easy.getRemainingTime()
-            meditationMode = RelaxMode(toggleState:{self.isBreathingIn.toggle()})
+            title = SelectionMode.easy.title
+            meditationController = RelaxMode(toggleState:{self.isBreathingIn.toggle()})
         case .medium:
             remainingTime = SelectionMode.medium.getRemainingTime()
+            title = SelectionMode.medium.title
         case .hard:
             remainingTime = SelectionMode.hard.getRemainingTime()
+            title = SelectionMode.hard.title
         }
     }
     
@@ -51,7 +55,7 @@ class MeditationScreenViewModel: ObservableObject {
     }
     
     func dispatchMode() {
-        meditationMode?.execute()
+        meditationController?.execute()
     }
     
 }
@@ -68,7 +72,7 @@ extension MeditationScreenViewModel {
             remainingTime -= 1
         } else {
             timerCancellable?.cancel()
-            meditationMode?.stop()
+            meditationController?.stop()
         }
     }
 }

@@ -45,4 +45,15 @@ enum SelectionMode: Int, CaseIterable {
             return "Deep"
         }
     }
+    
+    var resource:String {
+        switch self {
+        case .easy:
+            return "https://cdn.pixabay.com/audio/2021/09/06/audio_887337c364.mp3"
+        case .medium:
+            return "1"
+        case .hard:
+            return "2"
+        }
+    }
 }

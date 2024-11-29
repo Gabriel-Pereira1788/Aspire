@@ -21,7 +21,7 @@ struct MeditationScreenView : View {
                 .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
             
             VStack {
-                Text("Deep Meditation to relax")
+                Text("Meditation to \(viewModel.title)")
                     .font(.system(size:40,weight: .light,design: .none))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.black)

@@ -7,18 +7,20 @@
 import SwiftUI
 import UIKit
 
-class RelaxMode: MeditationMode {
+class RelaxMode: MeditationController {
     var toggleState: () -> Void
     
-    private var isStopped = false
+    private var hapticFeedback = HapticFeedbackManager()
     private var soundEffect = SoundEffectManager()
+    
+    private var isStopped = false
     
     init(toggleState:@escaping () -> Void){
         self.toggleState = toggleState
     }
     
     func execute() {
-        soundEffect.play(resource: "relax_rain")
+        soundEffect.play(resource: SelectionMode.easy.resource)
         runBreathingAnimation()
     }
     
@@ -29,6 +31,7 @@ class RelaxMode: MeditationMode {
     
     func runBreathingAnimation() {
         if isStopped {
+            self.hapticFeedback.dispatchNotificationFeedback(.success)
             soundEffect.stop()
             return
         }
@@ -36,27 +39,19 @@ class RelaxMode: MeditationMode {
         withAnimation(.easeInOut(duration:4)) {
             toggleState()
         } completion: {
-            self.dispatchImpactFeedback(.light)
+            self.hapticFeedback.dispatchImpactFeedback(.light)
+            
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-            self.dispatchImpactFeedback(.medium)
+            self.hapticFeedback.dispatchImpactFeedback(.medium)
             withAnimation(.easeInOut(duration:8)) {
                 self.toggleState()
                 
             } completion: {
-                self.dispatchImpactFeedback(.soft)
+                self.hapticFeedback.dispatchImpactFeedback(.rigid)
                 self.runBreathingAnimation()
             }
         }
-    }
-}
-
-
-
-extension RelaxMode {
-    private func dispatchImpactFeedback(_ style:UIImpactFeedbackGenerator.FeedbackStyle) {
-        let feedbackHeavy = UIImpactFeedbackGenerator(style: style)
-        feedbackHeavy.impactOccurred()
     }
 }

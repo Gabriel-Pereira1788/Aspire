@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol MeditationMode {
+protocol MeditationController {
     var toggleState:() -> Void { get }
     func execute() -> Void
     func stop() -> Void
