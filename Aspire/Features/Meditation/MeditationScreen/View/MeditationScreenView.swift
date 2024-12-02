@@ -51,6 +51,9 @@ struct MeditationScreenView : View {
             .padding()
             .background {
                 BackgroundView()
+            }.onDisappear {
+                print("run this")
+                viewModel.unMountScreen()
             }
     }
     

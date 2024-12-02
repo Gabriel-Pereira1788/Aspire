@@ -1,26 +1,28 @@
 //
-//  RelaxMode.swift
+//  DeepMode.swift
 //  Aspire
 //
-//  Created by Gabriel Pereira on 27/11/24.
+//  Created by Gabriel Pereira on 30/11/24.
 //
-import SwiftUI
-import UIKit
 
-class RelaxMode: MeditationController {
-    var toggleState: () -> Void
-    
+import SwiftUI
+
+
+class DeepMode:MeditationController {
     private var hapticFeedback = HapticFeedbackManager()
     private var soundEffect = SoundEffectManager()
-    
     private var isStopped = false
     
-    init(toggleState:@escaping () -> Void){
+    var toggleState: () -> Void
+    
+    init(toggleState: @escaping () -> Void) {
         self.toggleState = toggleState
     }
-    
+    deinit {
+        soundEffect.stop()
+    }
     func execute() {
-        soundEffect.play(resource: SelectionMode.easy.resource)
+        soundEffect.play(resource: SelectionMode.hard.resource)
         runBreathingAnimation()
     }
     
@@ -28,7 +30,6 @@ class RelaxMode: MeditationController {
         isStopped = true
         soundEffect.stop()
     }
-    
     
     func runBreathingAnimation() {
         if isStopped {
@@ -39,15 +40,16 @@ class RelaxMode: MeditationController {
         inhale()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+            
             self.exhale {
                 self.runBreathingAnimation()
             }
-            
         }
+        
     }
 }
 
-extension RelaxMode {
+extension DeepMode {
     func inhale() {
         withAnimation(.easeInOut(duration:4)) {
             toggleState()

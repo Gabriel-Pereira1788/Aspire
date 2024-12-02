@@ -1,10 +1,3 @@
-//
-//  MeditationScreenViewModel.swift
-//  Aspire
-//
-//  Created by Gabriel Pereira on 24/11/24.
-//
-
 import SwiftUI
 import Combine
 import UIKit
@@ -44,9 +37,11 @@ class MeditationScreenViewModel: ObservableObject {
         case .medium:
             remainingTime = SelectionMode.medium.getRemainingTime()
             title = SelectionMode.medium.title
+            meditationController = FocusMode(toggleState: {self.isBreathingIn.toggle()})
         case .hard:
             remainingTime = SelectionMode.hard.getRemainingTime()
             title = SelectionMode.hard.title
+            meditationController = DeepMode(toggleState: {self.isBreathingIn.toggle()})
         }
     }
     
@@ -56,6 +51,10 @@ class MeditationScreenViewModel: ObservableObject {
     
     func dispatchMode() {
         meditationController?.execute()
+    }
+    
+    func unMountScreen(){
+        meditationController?.stop()
     }
     
 }

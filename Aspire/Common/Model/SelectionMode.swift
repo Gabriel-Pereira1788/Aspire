@@ -51,9 +51,9 @@ enum SelectionMode: Int, CaseIterable {
         case .easy:
             return "https://cdn.pixabay.com/audio/2021/09/06/audio_887337c364.mp3"
         case .medium:
-            return "1"
+            return "https://cdn.pixabay.com/audio/2023/08/12/audio_1de7c4d2a5.mp3"
         case .hard:
-            return "2"
+            return "https://cdn.pixabay.com/audio/2024/09/11/audio_a32fe28a75.mp3"
         }
     }
 }
